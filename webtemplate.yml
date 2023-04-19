@@ -1,0 +1,21 @@
+---
+  - name: webserver with template
+    hosts: all
+    tasks:
+        - name: install httpd
+          yum:
+              name: httpd
+              state: present
+        - name: start service
+          service:
+              name: httpd
+              state: started
+              enabled: yes
+        - name: template
+          template:
+               src: index.j2
+               dest: /var/www/html/index.html
+        - name: virtual template
+          template:
+                src: index2.j2
+                dest: /etc/httpd/conf/httpd.conf         

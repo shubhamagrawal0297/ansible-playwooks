@@ -1,0 +1,27 @@
+---
+  - name: configure dns server
+    hosts: all
+    tasks:
+          - name: install packages
+            yum:
+                name: "bind*"
+                state: present
+          - name: start service
+            service:
+                  name: named
+                  state: started
+                  enabled: yes        
+          - name: create configuration file
+            template:
+                  src: named.conf.j2
+                  dest: /etc/named.conf
+                  backup: yes
+          - name: configure zone file
+            template:
+                  src: zone.j2
+                  dest: /var/named/{{ zone_name }}
+                  group: named
+          - name: restart service
+            service:
+                  name: named
+                  state: restarted       

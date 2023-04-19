@@ -1,0 +1,26 @@
+---
+  - name: entry in apache config file
+    hosts: node2
+    tasks:
+         - name: edit document root
+           lineinfile:
+                path: /httpd.conf
+                regexp: 'DocumentRoot'
+                line: newdocumentroot /var/www/sourbh 
+         - name: default browser choice
+           lineinfile:
+                 path: /httpd.conf
+                 regexp: '^# default browser choice' 
+                 line: default new browser choice (iso 1088)
+         - name: edit in add default char set
+           lineinfile:
+                 path: /httpd.conf    
+                 regexp: '^#AddDefaultcharse'     
+                 line: AddDefaultcharsset
+                 state: present
+
+         - name: enablefile
+           lineinfile:
+                 path: /httpd.conf
+                 regexp: '^EnableSendfile '
+                 line: enablesendfile off          

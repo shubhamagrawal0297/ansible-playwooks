@@ -1,0 +1,26 @@
+---
+  - name: configure dns webserver
+    hosts: all
+    tasks:
+         - name: install bind and bind-utils
+           yum:
+               name: bind,bind-utils
+               state: present
+         - name: start service
+           service:
+               name: named
+               state: started
+               enabled: yes
+           ignore_errors: yes      
+         - name: entry in configuration file
+           copy:
+               src: etcconf.conf
+               dest: /etc/named.conf
+         - name: entry in named
+           template:
+                  src: /var/named/sourabh
+                  dest: /var/named/sourabh 
+         - name: restart service
+           service:
+                  name: named
+                  state: restarted  
